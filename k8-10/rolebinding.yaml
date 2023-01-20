@@ -1,0 +1,12 @@
+apiVersion: rbac.authrization.k8s.io/v1
+kind: RoleBlinding
+metadata:
+  name: devuser
+subjects:
+  - kind: user
+    name: devopsuser1
+    apiGroup: rbac.authrization.k8s.io
+roleRef:
+  kind: Role
+  name: developer
+  apiGroup: rbac.authrization.k8s.io

@@ -1,0 +1,19 @@
+appVersion: v1
+kind: deployment
+metadata:
+  name: my-httpd
+spec:
+  selector:
+    matchlabels:
+      name: my-httpd
+  replicas: 4
+  template:
+    metadata:
+    labels:
+      name: my-httpd
+    spec:
+    containers:
+    - name: my-httpd
+      image: httpd
+      ports:
+      - containerPort: 80

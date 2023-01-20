@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: docker-private-reg
+data:
+  .dockerconfigjson: 
+type: kubernetes.io/dockerconfigjson
+
+# kubectl create secret docker-registry reg-cred --docker-server=private-registry.io --docker-username=tharun --docker-password=admin --docker-mail=abcd@gmail.com
+
+---
+
+# pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: private-reg
+spec:
+  contaiener:
+    name: my-container
+  imagePullSecrets:
+    - name: docker-private-reg

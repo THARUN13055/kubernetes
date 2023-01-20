@@ -1,0 +1,38 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkingPolicy
+metadata:
+  name: db-policy
+spec:
+  #this is the db pod which we are using
+  podSelector:
+    matchLabels:
+      name: db-pod
+  #this is use to tell about which policy we are using
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        # this is the api pod which hits the db pod
+        - podSelector:
+            matchLabels:
+              name: api-pod
+        # this is the namespace which other pod will be container other namespace
+        - namespaceSelector:
+            matchLabels:
+              name: default
+        # if we need to specific the or backup the db data which we give as private ip we can able to mension the ip which we can permit
+        - ipBlock:
+            cidr: 192.163.9.5/32
+        # this is the ports for db
+      ports:
+        - protocol: tcp
+          port: 3306
+  engress:
+    # this is use to allow the outcoming traffic
+    - to:
+      - ipBlock:
+          cidr: 192.163.9.5/32
+      ports:
+        - protocol: TCP
+          port: 80
+

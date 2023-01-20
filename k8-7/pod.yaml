@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-nginx
+  labels:
+    app: pods
+spec:
+  containers:
+    -  name: my-container
+       image: nginx
+       ports:
+        -  containerPort: 80
+       volumeMounts:
+           -  mountPath: "mnt/storage"
+              name: my-volume
+       volumes:
+        -  name: my-volume
+           persistentVolumeClaim:
+            claimName: my-pvc

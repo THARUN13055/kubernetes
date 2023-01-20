@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: azurestroage
+spec:
+  containers:
+    - name: my-contaiener
+      image: nginx
+      volumeMounts:
+        - name: storage
+          mountPath: /var/www/html
+  volumes:
+    - name: storage
+      persistentVolumeClaim:
+      claimName: azurefile 
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: azurefile
+spec:
+  accessMode:
+    - ReadWriteOnce
+  capacity:
+    stroage: 1Gi
+  azureFile:
+    secretName: azure-secret
+    shareName: aksshare
+    readOnly: flase
+  mountOptions:
+  - dir_mode=0777
+  - file_mode=0777
+  - uid=1000
+  - gid=1000
+  - mfsymlinks
+  - nobrl
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: azurefile
+spec:
+  accessMode:
+    - ReadWriteOnce
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 1Gi
+---
+kubectl create secret generic azure-secret --from-literal=azurestorageaccountname=$AKS_PERS_STORAGE_ACCOUNT_NAME --from-literal=azurestorageaccountkey=$STORAGE_KEY
+---
+# secret in cli or yaml file
+
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: azurefile-secret
+type: Opaque
+data:
+  azurestorageaccountname:
+  azurestorageaccountkey:

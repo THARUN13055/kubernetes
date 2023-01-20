@@ -1,0 +1,15 @@
+we need to create the node
+ - namespace
+ - size - large
+ - role for node
+
+and we need to create the pod
+  - namespace of the node
+  - select only in the node large
+  - set role and role binding
+  - anotation
+  - pod affinity
+  - service - nodeport
+  - secret
+  - scalling 
+  - serviceaccount

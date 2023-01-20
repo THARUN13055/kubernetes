@@ -1,0 +1,18 @@
+kind: Pods
+metadata:
+  name: affinity-samply
+spec:
+  containers:
+    - name: my-container
+      image: nginx
+  affinity:
+    nodeAffinity:
+      requiredDuringShedulingRequiredDuringExcution:
+        nodeSelectorTeams:
+          - matchExceptions:
+              - key: size
+                operation: In
+                values:
+                  - Large
+                  - Medium
+#this is use to shedule the node which we need to deploy the pod 

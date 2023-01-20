@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: admin-access
+rules:
+  - apiGroup: [""]
+    resource: ["Pod"]
+    verbs: ["list","get","update","delete","create"]
+    resourceName: ["blue","greed"]
+# this is another resource which we assigning the new roles
+  - apiGroup: [""]
+    resource: ["Deployment"]
+    verbs: ["list","get","update","delete","create"]

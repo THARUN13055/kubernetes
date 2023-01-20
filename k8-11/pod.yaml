@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+  namespace: project
+  labels:
+    app: nginx
+spec:
+  containers:
+    - name: my-container
+      image: nginx
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 8080
+      resources:
+        requests:
+          memory: "256Mi"
+          cpu: "250m"
+        limits:
+          memory: "512Mi"
+          cpu: "500m"
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: Size
+                operator: In
+                values:
+                  - Large

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: resourcequota-sample
+  namespace:
+spec:
+  hard:
+    pods: "10"
+    request.cpu: "4"
+    request.memory: 5Gi
+    limits.cpu: "10"
+    limits.memory: 10Gi
+
+# this is use to limit the namespace and study the nodeselector and nodeaffinitySala Azure, [08/11/22 10:56 AM]

@@ -1,0 +1,6 @@
+apiVersion: kubeschedular.config.k8s.io/v1
+kind: KubeSchedularConfiguration
+profiles:
+  - schedularName: my-schedular-1
+
+# this is use to schedule the 

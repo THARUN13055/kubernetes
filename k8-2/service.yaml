@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-httpd
+  labels:
+    name: my-httpd
+spec:
+  selector:
+    name: my-httpd
+  ports:
+  - port: 80
+    protocal: TCP
