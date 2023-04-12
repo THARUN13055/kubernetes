@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  namespace: test
+spec:
+  rules:
+    - http:
+        paths:
+          - path: .
+            pathType: Prefix
+            backend:
+              service:
+                name: test
+              port:
+                number: 80

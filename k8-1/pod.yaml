@@ -3,6 +3,7 @@ kind: Pod
 
 metadata:
   name: ngnix
+  namespace: test
   labels:
     app: ngnix
 
@@ -12,4 +13,3 @@ spec:
      image: nginx
      ports:
      -  containerPort: 80
-
