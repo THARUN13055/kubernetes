@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx-stateful
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx
+          port:
+            - containerPorts: 80
+              name: web
+          voumeMounts:
+            - name: web
+              mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+    - metadata:
+        name: web
+      spec:
+        accessMode: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 2Gi
