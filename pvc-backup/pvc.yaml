@@ -1,0 +1,42 @@
+
+# First we need to create the pvc and store any of the data
+
+apiVersion: v1
+kind: PersistentVolumeClime
+metadata:
+  name: myclaim 
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+
+# Here we are clone the myclaim pvc into the clone-myclaim pvc . and after get inside the volume and check wether the given data is here or not
+
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: clone-myclaim
+spec:
+  dataSource:
+    name: myclaim
+    kind: PersistentVolumeClaim
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshot
+metadata:
+  name: myclaim-snapshot
+spec:
+  volumeSnapshotClassName: csi-pd-snapshotclass
+  source:
+    persistentVolumeClaimName: myclaim
