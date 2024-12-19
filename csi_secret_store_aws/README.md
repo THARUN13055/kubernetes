@@ -43,6 +43,24 @@
 
 **Note**: This policy provides minimum required permissions - only read and get value access 🔒
 
+## Same time we need to create the Role for this Policy
+
+**before creating that we need to create OIDC VALIDATE provider**
+
+1. Create Identify provier
+2. Select OIDC provider
+3. for url Go to you eks cluster there you see the OIDC url copy and past that
+4. and for auditon you need to name as **sts.amazonaws.com**
+5. create it
+
+### Now we create the Role
+
+1. Create role
+2. Select Webidentify
+3. in web identify choose the identify provider which we before create
+4. Click next and add your policy which we created in **Step 2**
+5. And Create the role is create. Use this urn for **service account**
+
 ## Step 3: Install Secrets Store CSI Driver 🔌
 
 ### A. Add Helm Repository
