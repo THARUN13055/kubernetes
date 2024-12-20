@@ -1,7 +1,43 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: myapp
+# spec:
+#   selector:
+#     matchLabels:
+#       app: myapp
+#   template:
+#     metadata:
+#       labels:
+#         app: myapp
+#     spec:
+#       serviceAccountName: csi-account
+#       volumes:
+#       - name: "db-creds"
+#         csi:
+#           driver: secrets-store.csi.k8s.io
+#           readOnly: true
+#           volumeAttributes:
+#             secretProviderClass: aws-test-secret-provider
+#       containers:
+#       - name: myapp
+#         image: nginx
+#         volumeMounts:
+#         - name: db-creds
+#           mountPath: /tmp
+#           readOnly: true
+#         resources:
+#           limits:
+#             memory: "128Mi"
+#             cpu: "500m"
+#         ports:
+#         - containerPort: 80
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: myapp
+  namespace: two
 spec:
   selector:
     matchLabels:
@@ -13,7 +49,7 @@ spec:
     spec:
       serviceAccountName: csi-account
       volumes:
-      - name: "db-creds"
+      - name: secrets
         csi:
           driver: secrets-store.csi.k8s.io
           readOnly: true
@@ -21,10 +57,21 @@ spec:
             secretProviderClass: aws-test-secret-provider
       containers:
       - name: myapp
-        image: nginx
+        image: nginx:1.14.2
+        env:
+        - name: MY_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: test-secret # Kubernetes secret created by the SecretProviderClass
+              key: k8s-myusername # Key in the Kubernetes secret
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: test-secret # Kubernetes secret created by the SecretProviderClass
+              key: k8s-mypassword # Key in the Kubernetes secret
         volumeMounts:
-        - name: db-creds
-          mountPath: /tmp
+        - name: secrets
+          mountPath: /tmp/secrets
           readOnly: true
         resources:
           limits:
