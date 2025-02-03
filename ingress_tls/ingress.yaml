@@ -1,0 +1,39 @@
+# Source: helm/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend-ingress
+  namespace: "frontend-test"
+  annotations:
+    # This are all nginx ingress anatation 
+    nginx.ingress.kubernetes.io/proxy-body-size: 50m
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+
+    # This are all aws loadbalancer annatation for aws certificate manager. for aws loadbalancer ingress
+    service.beta.kubernetes.io/aws-load-balancer-internal: "false"
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: http
+    service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags: Environment=test
+    service.beta.kubernetes.io/aws-load-balancer-healthcheck-timeout: "30"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-west-2:xxxxx:certificate/xxxxxxx # Here you need to create ACM and after that it will give arn you need to copy and past here.
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-negotiation-policy: ELBSecurityPolicy-TLS13-1-2-2021-06
+
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: testpg.paynpro.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-service
+                port:
+                  number: 80
+  tls:
+  - hosts:
+      - testpg.paynpro.com
+    
