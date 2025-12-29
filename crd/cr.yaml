@@ -1,0 +1,8 @@
+apiVersion: apps.tharun.com/v1
+kind: LimitedDeployment
+metadata:
+  name: my-app
+spec:
+  replicas: 20
+  image: nginx:1.25
+  port: 80
