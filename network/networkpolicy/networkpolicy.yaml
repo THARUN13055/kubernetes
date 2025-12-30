@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-project1-testa-to-project2-testb
+  namespace: project-2
+spec:
+  podSelector:
+    matchLabels:
+      env: testb
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              env: a
+          podSelector:
+            matchLabels:
+              env: testa

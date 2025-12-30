@@ -1,0 +1,110 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: website-1
+  namespace: project-1
+  labels:
+    app: website-1
+    env: testa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: website-1
+  template:
+    metadata:
+      labels:
+        app: website-1
+        env: testa
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "256Mi"
+            limits:
+              cpu: "70m"
+              memory: "512Mi"
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: website-2
+  namespace: project-2
+  labels:
+    app: website-2
+    env: testb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: website-2
+  template:
+    metadata:
+      labels:
+        app: website-2
+        env: testb
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "256Mi"
+            limits:
+              cpu: "70m"
+              memory: "512Mi"
+
+
+---
+
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: website-3
+  namespace: project-3
+  labels:
+    app: website-3
+    env: testc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: website-3
+  template:
+    metadata:
+      labels:
+        app: website-3
+        env: testc
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "256Mi"
+            limits:
+              cpu: "70m"
+              memory: "512Mi"
+
+
+
+
+
+
+
